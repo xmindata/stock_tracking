@@ -3,6 +3,8 @@
 import requests
 from urllib.parse import urlencode
 import csv
+import panas as pd
+import numpy as np
 
 class Stock:
     def __init__(self, symbol, request_range):
@@ -34,5 +36,5 @@ class Stock:
         pass
 
     def export_fundamental(self):
-        ipass
+        pass
 
