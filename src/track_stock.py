@@ -24,10 +24,15 @@ class Stock:
                     'token':request_token
             }
 
-            resp = requests.get("https://sandbox.iexapis.com/stable/stock/baba/batch?types=quote,chart&range=1m&last=10&token=Tsk_ff9db2bb5ef84c929272b4a176a9089a")
-            print (URL+symbol+'/batch?'+urlencode(request_params))
+            # resp = requests.get("https://sandbox.iexapis.com/stable/stock/baba/batch?types=quote,chart&range=1m&last=10&token=Tsk_ff9db2bb5ef84c929272b4a176a9089a")
+            # print (URL+symbol+'/batch?'+urlencode(request_params))
 
+            if resp.status_code != 200:
+                # This means something went wrong.
+                print (resp.status_code)
+                raise ApiError('GET /tasks/{}'.format(resp.status_code))
 
+            iex_quote = resp.json()
             return iex_quote
         except Exception as e:
             print(f'There is an error {e}')
