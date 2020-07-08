@@ -38,7 +38,14 @@ class Stock:
             print(f'There is an error {e}')
 
     def export_price(self):
-        pass
+        iex_quote = self.fetch_stock_price()
+        filename = self.symbol + '.csv'
+        with open(filename, 'w', newline='') as csvfile:
+            fieldnames = ["date", "high", "low", "volume", "open", "close", "label", "change", "changePercent"]
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, extrasaction='ignore')
+            writer.writeheader()
+            for daily_quote in iex_quote['chart']:
+                writer.writerow(daily_quote)
 
     def export_fundamental(self):
         pass
