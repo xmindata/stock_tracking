@@ -9,6 +9,11 @@ class Stock:
         self.symbol = symbol
         self.request_range = request_range
 
+    def run_all(self):
+        self.fetch_stock_price()
+        self.export_price()
+        self.export_fundamental()
+
     def fetch_stock_price(self):
         try:
             request_type = "quote,chart"
@@ -23,7 +28,7 @@ class Stock:
             }
 
             resp = requests.get("https://sandbox.iexapis.com/stable/stock/baba/batch?types=quote,chart&range=1m&last=10&token=Tsk_ff9db2bb5ef84c929272b4a176a9089a")
-            print (URL+symbol+'/batch?'+urlencode(request_params))
+            print (URL+self.symbol+'/batch?'+urlencode(request_params))
 
             if resp.status_code != 200:
                 # This means something went wrong.
@@ -55,3 +60,5 @@ class Stock:
             writer.writeheader()
             writer.writerow(iex_quote['quote'])
 
+BABA= Stock('baba', '2y')
+BABA.run_all()
