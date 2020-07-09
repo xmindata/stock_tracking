@@ -1,9 +1,7 @@
-# fetching daily stock data from IEX
-# Needs to fill in the symbol (BABA) and request range (e.g. 1 year)
 import requests
 from urllib.parse import urlencode
 import csv
-import panas as pd
+import pandas as pd
 import numpy as np
 
 class Stock:
@@ -24,8 +22,8 @@ class Stock:
                     'token':request_token
             }
 
-            # resp = requests.get("https://sandbox.iexapis.com/stable/stock/baba/batch?types=quote,chart&range=1m&last=10&token=Tsk_ff9db2bb5ef84c929272b4a176a9089a")
-            # print (URL+symbol+'/batch?'+urlencode(request_params))
+            resp = requests.get("https://sandbox.iexapis.com/stable/stock/baba/batch?types=quote,chart&range=1m&last=10&token=Tsk_ff9db2bb5ef84c929272b4a176a9089a")
+            print (URL+symbol+'/batch?'+urlencode(request_params))
 
             if resp.status_code != 200:
                 # This means something went wrong.
@@ -48,5 +46,12 @@ class Stock:
                 writer.writerow(daily_quote)
 
     def export_fundamental(self):
-        pass
+        iex_quote = self.fetch_stock_price()
+        filename = self.symbol + '_fundamental.csv'
+        with open(filename, 'w', newline='') as csvfile:
+            fieldnames = ["symbol", "companyName", "primaryExchange", "avgTotalVolume", "marketCap", "peRatio",
+                          "week52High", "week52Low", "ytdChange"]
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames, extrasaction='ignore')
+            writer.writeheader()
+            writer.writerow(iex_quote['quote'])
 
