@@ -6,6 +6,11 @@ import numpy as np
 
 class Stock:
     def __init__(self, symbol, request_range):
+        """
+        Visit the api to fetch the stock data
+        :param symbol: ticker of the interested stock
+        :param request_range: time range of the data, e.g. 2y.
+        """
         self.symbol = symbol
         self.request_range = request_range
 
@@ -18,7 +23,7 @@ class Stock:
         try:
             request_type = "quote,chart"
             request_last = "10"
-            request_token = "Tsk_ff9db2bb5ef84c929272b4a176a9089a"
+            request_token = "***"
             URL = "https://sandbox.iexapis.com/stable/stock/"
             request_params = {
                     'types':request_type,
